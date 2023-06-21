@@ -1,0 +1,4 @@
+# 依赖文件
+selenium
+pytest
+ddt

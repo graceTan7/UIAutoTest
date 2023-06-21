@@ -1,2 +1,1 @@
-# UIAutoTest
-python, ui automation test
+# cicd_webauto
