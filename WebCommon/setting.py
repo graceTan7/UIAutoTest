@@ -7,7 +7,7 @@
 url = "https://portal.eventx.io"
 
 # stagging env
-beta_url = "https://portal-staging.2vanx.com"
+staging_url = "https://portal-staging.2vanx.com"
 
 # cn-stagging env
-cn_beta_url = "https://portal-staging.eventx.link"
+cn_staging_url = "https://portal-staging.eventx.link"
