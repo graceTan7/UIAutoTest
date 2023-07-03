@@ -5,5 +5,5 @@
 from selenium.webdriver.common.by import By
 
 # button loc
-loc_PhySession_on = (By.XPATH, '//div[@class="sc-cPbyew eUNSQI"]//input')
-loc_PhySession_off = (By.XPATH, '//span[@class="MuiSwitch-root MuiSwitch-sizeMedium css-ecvcn9"]')
+loc_PhySession_on = (By.XPATH, "//h6[text()='In-person Check-In']/ancestor::label//input[@type='checkbox' and @checked]/ancestor::label")
+loc_PhySession_off = (By.XPATH, "//h6[text()='In-person Check-In']/ancestor::label//input[@type='checkbox' and not(@checked)]/ancestor::label")

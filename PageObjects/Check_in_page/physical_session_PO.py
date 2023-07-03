@@ -10,7 +10,7 @@ class PhySessionPage(BasePageObjects):
 
     def turn_on(self):
         """turn on physical check-in button"""
-        # self.wait_eleExists(ps_loc.loc_PhySession_off)
+        self.wait_eleExists(ps_loc.loc_PhySession_off)
         self.get_element(ps_loc.loc_PhySession_off)
         self.click_element(ps_loc.loc_PhySession_off)
 

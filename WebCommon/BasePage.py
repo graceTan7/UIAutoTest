@@ -13,60 +13,60 @@ from selenium.webdriver.support import expected_conditions as EC
 
 class BasePageObjects:
     """
-    webauto测试用例基类
-    包含了PageObjects当中，用到所有的selenium底层方法
-    包含通用的一些元素操作，如alert,iframe,windows...
-    日志记录、实现失败截图
+    webauto test case base class
+    Contains all the selenium underlying methods used in PageObjects
+    Includes some common element operations, such as alert, iframe, windows...
+    Log record, realize failure screenshot
     """
 
     def __init__(self, driver: WebDriver):
         self.driver = driver
 
-    # 等待元素可见
+    # wait for element visible
     def wait_eleVisible(self, loc, img_doc="", timeout=30, poll_frequency=0.5):
         """
 
-        :param loc: 元素loc
-        :param img_doc: 图片名称
-        :param timeout: WebDriverWait 超时时间
-        :param poll_frequency: 休眠时间的间隔（步长）时间
+        :param loc: element loc
+        :param img_doc: image name
+        :param timeout: WebDriverWait timeout
+        :param poll_frequency: sleep time interval (step) time
         :return:
         """
-        logging.info("等待元素 {} 可见.".format(loc))
+        logging.info("Waiting for element {} to be visible.".format(loc))
         start = datetime.datetime.now()
         try:
             WebDriverWait(self.driver, timeout, poll_frequency).until(EC.visibility_of_element_located(loc))
         except TimeoutError:
-            logging.exception("等待元素可见失败！")
+            logging.exception("Failed to wait element to be visible!")
             self.save_web_screenshot(img_doc)
             raise TimeoutError
         else:
             end = datetime.datetime.now()
-            logging.info(f"开始等待时间点：{start}，结束等待时间点：{end}，等待时长为：{end - start}")
+            logging.info(f"Start waiting time: {start}, end waiting time: {end}, waiting time is: {end - start}")
 
-    # 等待元素存在
+    # wait for element exist
     def wait_eleExists(self, loc, img_doc="", timeout=30, poll_frequency=0.5):
         '''
-        :param loc: 元素loc
-        :param img_doc: 图片名称
-        :param timeout: WebDriverWait 超时时间
-        :param poll_frequency: 休眠时间的间隔（步长）时间
+        :param loc: Element location
+        :param img_doc: Image name
+        :param timeout: WebDriverWait timeout
+        :param poll_frequency: Sleep time interval (step length) time
         :return:
         '''
-        logging.info(f"等待元素{loc}存在。")
+        logging.info(f"Wait for element {loc} to exist.")
         start = datetime.datetime.now()
         try:
             WebDriverWait(self.driver, timeout, poll_frequency).until(EC.presence_of_all_elements_located(loc))
         except TimeoutError:
-            logging.exception("等待元素存在失败！")
+            logging.exception("Waiting for element to exist failed!")
             self.save_web_screenshot(img_doc)
             raise TimeoutError
         else:
-            # 结束等待的时间
+            # End time to wait
             end = datetime.datetime.now()
-            logging.info(f"开始等待时间：{start}，结束等待时间点：{end}，等待时长为：{end - start}")
+            logging.info(f"Start waiting time: {start}, end waiting time point: {end}, waiting time is: {end - start}")
 
-    # 查找一个元素
+    # get element
     def get_element(self, loc, img_doc=""):
         '''
 
@@ -74,16 +74,16 @@ class BasePageObjects:
         :param img_doc:
         :return:
         '''
-        logging.info(f"查找{img_doc}中的元素{loc}")
+        logging.info(f"Find element {loc} in {img_doc}")
         try:
             ele = self.driver.find_element(*loc)
             return ele
         except Exception as e:
-            logging.exception("查找元素fail")
+            logging.exception("failed to find element")
             self.save_web_screenshot(img_doc)
             return False
 
-    # 点击操作
+    # click
     def click_element(self, loc, img_doc="", timeout=30, poll_frequency=0.5):
         '''
 
@@ -96,15 +96,14 @@ class BasePageObjects:
         self.wait_eleVisible(loc, img_doc, timeout, poll_frequency)
         ele = self.get_element(loc, img_doc)
         WebDriverWait(self.driver, timeout, poll_frequency).until(EC.element_to_be_clickable(loc))
-        logging.info(f"点击元素 {loc}")
+        logging.info(f"Click element {loc}")
         try:
             ele.click()
         except:
-            logging.exception("点击元素失败")
+            logging.exception("Click element failed")
             self.save_web_screenshot(img_doc)
             raise
 
-    # 文本输入
     def input_text(self, loc, *args):
         """
 
@@ -119,47 +118,44 @@ class BasePageObjects:
         ele = self.get_element(loc, img_loc)
         try:
             ele.send_keys(args[0])
-            logging.info(f" 给元素{loc}输入文本内容：{args[0]}")
+            logging.info(f"Enter text content {args[0]} for element {loc}")
             return ele
         except:
-            logging.exception("元素输入操作失败")
+            logging.exception("Element input operation failed", loc)
             self.save_web_screenshot(img_loc)
             raise
 
-    # 获取元素属性值
     def get_element_attribute(self, loc, attr_name, img_doc, timeout=30, poll_frequency=0.5):
         self.wait_eleExists(loc, img_doc, timeout, poll_frequency)
         ele = self.get_element(loc, img_doc)
         try:
             attr_value = ele.get_attribute(attr_name)
         except:
-            logging.exception("获取元素属性失败")
+            logging.exception("Failed to get element attribute")
             self.save_web_screenshot(img_doc)
             raise
         else:
-            logging.info(f"获取元素{loc}的属性{attr_name}值为：{attr_value}")
+            logging.info(f"Get the attribute {attr_name} value of element {loc} as: {attr_value}")
             return attr_value
 
-    # 获取元素文本内容
     def get_element_text(self, loc, img_doc='', timeout=30, poll_frequency=0.5):
         self.wait_eleExists(loc, img_doc, timeout, poll_frequency)
         ele = self.get_element(loc, img_doc)
         try:
             text = ele.text
         except:
-            logging.exception("获取元素文本值失败")
+            logging.exception("Failed to get element text value")
             self.save_web_screenshot(img_doc)
             raise
         else:
-            logging.info(f"获取元素 {loc} 的文本值为：{text}")
+            logging.info(f"Get the text value of element {loc} as: {text}")
             return text
 
-    # 截图
     def save_web_screenshot(self, img_doc):
         now = time.strftime("%Y-%m-%d %H_%M_%S")
         filepath = "{}_{}.png".format(img_doc, now)
         try:
             self.driver.save_screenshot(screenshot_dir + "/" + filepath)
-            logging.info("网页截图成功。图片存储在：{}".format(screenshot_dir + "/" + filepath))
+            logging.info("Screenshot successful. The picture is stored in:{}".format(screenshot_dir + "/" + filepath))
         except:
-            logging.exception("网页截屏失败！")
+            logging.exception("Failed to take screenshot of webpage!")

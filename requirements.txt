@@ -1,4 +1,5 @@
-# 依赖文件
+# dependencies
 selenium
 pytest
 ddt
+dotenv
