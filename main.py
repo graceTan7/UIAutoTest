@@ -7,7 +7,6 @@ main function
 '''
 import time
 import os
-import pytest
 import unittest
 from HTMLTestRunnerNew import HTMLTestRunner
 from WebCommon.dir_conf import testReport_dir
@@ -36,5 +35,5 @@ if __name__ == '__main__':
     # run testcases
     fp = open(filename, 'wb')
     runner = HTMLTestRunner(stream=fp, title='Automation Report', description='Case Execution Status')
-    runner.run(s)
+    runner.run(suite)
     fp.close()

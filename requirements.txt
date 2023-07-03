@@ -2,4 +2,4 @@
 selenium
 pytest
 ddt
-dotenv
+python-dotenv
