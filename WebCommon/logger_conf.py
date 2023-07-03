@@ -12,12 +12,12 @@ from WebCommon import dir_conf
 ft = " %(asctime)s %(levelname)s %(filename)s %(funcName)s [ line:%(lineno)d ] %(message)s"
 dataft = " %a, %d %b %Y %H:%M:%S "
 curTime = time.strftime("%Y-%m-%d %H%M", time.localtime())
-# 将日志同时输出到屏幕和日志文件
+# pint log to console and log file
 handler_1 = logging.StreamHandler()
 
 print(dir_conf.testLog_dir)
-# 日志回滚
+# log rollback
 handler_2 = RotatingFileHandler(dir_conf.testLog_dir + "/Auto_{0}.log".format(curTime),backupCount=20,encoding="utf-8")
 handler_2 = RotatingFileHandler(dir_conf.testLog_dir + "/Auto_{0}.log".format(curTime), backupCount=20,encoding="utf-8")
-# 设置root logger
+# setup root logger
 logging.basicConfig(format=ft, datefmt=dataft, level=logging.INFO, handlers=[handler_1, handler_2])

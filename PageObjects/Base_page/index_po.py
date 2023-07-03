@@ -10,7 +10,7 @@ class IndexPage(BasePageObjects):
 
     def check_user_name_exists(self):
         """
-        :return: 存在返回True,不存在返回False
+        :return: returns True when exists
         """
         self.wait_eleVisible(index_loc.profile_button, "index: user profile button")
         time.sleep(0.5)

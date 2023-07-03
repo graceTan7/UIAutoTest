@@ -3,7 +3,7 @@
 # @Time    : 2020/6/19 19:49
 # @Introduction:
 '''
-主函数
+main function
 '''
 import time
 import os
@@ -11,20 +11,29 @@ import pytest
 import unittest
 from HTMLTestRunnerNew import HTMLTestRunner
 from WebCommon.dir_conf import testReport_dir
+from dotenv import load_dotenv
+import sys
 
 if __name__ == '__main__':
+    env = sys.argv[1] if len(sys.argv) > 1 else 'development'
+    envFile = '.env.development'
+    if env == 'staging':
+        envFile = '.env.staging'
+    elif env == 'production':
+        envFile = '.env.prodution'
+    load_dotenv(envFile)
 
     now = time.strftime("%m%d_%H%M%S")
     filename = testReport_dir + now + 'result.html'
-    # 实例化套件对象
-    s = unittest.TestSuite()
-    # 实例化TestLoader对象
+    # Instantiate the suite object
+    suite = unittest.TestSuite()
+    # Instantiate the TestLoader object
     loader = unittest.TestLoader()
-    # 2、使用discover去找到一个目录下的所有测试用例
-    # 3、使用s
+    # 2、Use discover to find all the test cases in a directory
     base_dir = os.path.split(os.path.abspath(__file__))[0] + '/TestCases'
-    s.addTests(loader.discover(base_dir, pattern='test*.py'))
-    # 运行
+    # 3、add testcases to suite
+    suite.addTests(loader.discover(base_dir, pattern='test*.py'))
+    # run testcases
     fp = open(filename, 'wb')
     runner = HTMLTestRunner(stream=fp, title='Automation Report', description='Case Execution Status')
     runner.run(s)
